@@ -23,9 +23,13 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    let birthday = new Date(form.value.birthdater);
+    let formattedBirthday = `${birthday.getDate()}/${birthday.getMonth()+1}/${birthday.getFullYear()}`;
+    
     this.authService.registerUser({
       email: form.value.email,
-      password: form.value.password
+      password: form.value.password,
+      birthday: formattedBirthday
 
     }).subscribe(result => {
       alert('Usuário registrado com sucesso.');

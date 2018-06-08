@@ -28,7 +28,8 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.authService.login({
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password
+      password: this.loginForm.value.password,
+      birthday: null
     }).subscribe(result => {
       if (result.length > 0) {
         alert('Login efetuado com sucesso.');
