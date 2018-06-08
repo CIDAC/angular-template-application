@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 
 // Application imports
 import { AuthService } from './../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +15,7 @@ export class SignupComponent implements OnInit {
 
   maxDate;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.maxDate = new Date();
@@ -26,6 +27,9 @@ export class SignupComponent implements OnInit {
       email: form.value.email,
       password: form.value.password
 
+    }).subscribe(result => {
+      alert('Usuário registrado com sucesso.');
+      this.router.navigate(['/']);
     });
   }
 

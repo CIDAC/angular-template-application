@@ -6,32 +6,26 @@ import { Subject } from 'rxjs/Subject';
 // Application imports
 import { AuthData } from './auth-data.model';
 import { User } from './user.model';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
   authChange = new Subject<boolean>();
   private user: User;
+  private url: string = "http://localhost:3000/users";
+  private httpHeaders: HttpHeaders = new HttpHeaders({ "Content-Type": "application/json" })
 
-  constructor(private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   registerUser(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      // Temporarily fake random ID
-      userId: Math.round(Math.random() * 10000).toString()
-    };
-
-    this.authSuccesfully();
+    return this.http.post<User>(this.url, authData);
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      // Temporarily fake random ID
-      userId: Math.round(Math.random() * 10000).toString()
-    };
+    const url = `${this.url}?email=${authData['email']}&password=${authData['password']}`;
 
-    this.authSuccesfully();
+    return this.http.get<User[]>(url);
   }
 
   logout() {

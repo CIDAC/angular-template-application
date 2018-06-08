@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 // Application imports
 import { AuthService } from './../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { AuthService } from './../auth.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -28,6 +29,14 @@ export class LoginComponent implements OnInit {
     this.authService.login({
       email: this.loginForm.value.email,
       password: this.loginForm.value.password
+    }).subscribe(result => {
+      if (result.length > 0) {
+        alert('Login efetuado com sucesso.');
+        this.router.navigate(['/']);
+      }
+      else {
+        alert('Usuário não existe');
+      }
     });
   }
 }
